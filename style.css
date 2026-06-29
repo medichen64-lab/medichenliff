@@ -1,4 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght=300;400;500;600&display=swap');
+
+/* โครงสร้างหน้าต่าง Login เต็มจอ */
+.login-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--bg-color);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999;
+}
+.login-box {
+    background: var(--surface);
+    padding: 40px; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    width: 100%; max-width: 400px; text-align: center;
+}
+.login-box h2 { color: var(--primary); margin-bottom: 24px; font-weight: 600; }
+.login-box .form-group { text-align: left; margin-bottom: 16px; }
+.login-box input { width: 100%; }
+.login-box .btn { width: 100%; margin-top: 12px; padding: 12px; }
 
 :root {
     --primary: #0284c7; /* Medical Blue */
@@ -126,7 +145,7 @@ body {
 @keyframes pulse-animation {
     0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
     70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
 }
 
 /* Main Content */
@@ -390,10 +409,8 @@ td .btn {
     border-top: 1px solid var(--border);
     padding-top: 16px;
 }
-/* =========================
-   Notification Bell
-========================= */
 
+/* Notification Bell */
 .header-actions{
     display:flex;
     align-items:center;
@@ -440,10 +457,7 @@ td .btn {
     100%{transform:rotate(0deg);}
 }
 
-/* =========================
-   Toast
-========================= */
-
+/* Toast */
 #toast-container{
     position:fixed;
     top:20px;
@@ -464,27 +478,12 @@ td .btn {
     animation:toastIn .25s ease;
 }
 
-.toast.loading{
-    border-left:5px solid #f59e0b;
-}
+.toast.loading{ border-left:5px solid #f59e0b; }
+.toast.success{ border-left:5px solid #10b981; }
+.toast.error{ border-left:5px solid #ef4444; }
 
-.toast.success{
-    border-left:5px solid #10b981;
-}
-
-.toast.error{
-    border-left:5px solid #ef4444;
-}
-
-.toast-title{
-    font-weight:600;
-    margin-bottom:4px;
-}
-
-.toast-message{
-    color:#64748b;
-    font-size:13px;
-}
+.toast-title{ font-weight:600; margin-bottom:4px; }
+.toast-message{ color:#64748b; font-size:13px; }
 
 .spinner{
     width:18px;
@@ -497,19 +496,86 @@ td .btn {
     margin-right:8px;
 }
 
-@keyframes spin{
-    100%{
-        transform:rotate(360deg);
-    }
-}
+@keyframes spin{ 100%{ transform:rotate(360deg); } }
 
 @keyframes toastIn{
-    from{
-        opacity:0;
-        transform:translateY(-10px);
+    from{ opacity:0; transform:translateY(-10px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+.container { 
+  width: 100%; 
+  max-width: 1200px; 
+  padding: 15px; 
+  box-sizing: border-box;
+}
+
+/* ========================================================
+   📱 เพิ่มเติมส่วนการรองรับหน้าจอมือถือ (Responsive / Hamburger Menu)
+   ======================================================== */
+
+/* สไตล์ปุ่มกดเปิดเมนูแฮมเบอร์เกอร์ (ซ่อนไว้เมื่อเปิดบนคอมพิวเตอร์) */
+.menu-btn {
+    display: none;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+    transition: background-color 0.2s;
+}
+.menu-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+@media (max-width: 768px) {
+    /* 1. แสดงปุ่มเปิดเมนูแฮมเบอร์เกอร์ */
+    .menu-btn {
+        display: block;
     }
-    to{
-        opacity:1;
-        transform:translateY(0);
+
+    /* 2. เปลี่ยน Sidebar ให้สไลด์ซ่อนออกไปทางซ้ายมือ */
+    .sidebar {
+        position: fixed;
+        left: -280px; /* ดันหลบไปนอกจอ */
+        top: 0;
+        width: 260px;
+        height: 100%;
+        z-index: 9999;
+        transition: left 0.3s ease-in-out;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        padding-top: 70px; /* ดันเนื้อหาเมนูลงมาหลบปุ่ม */
+    }
+
+    /* 3. เมื่อสคริปต์เติมคลาส .active ให้แสดงแถบเมนูสไลด์เข้ามา */
+    .sidebar.active {
+        left: 0;
+    }
+
+    /* 4. ปรับเนื้อหาแดชบอร์ดฝั่งขวาให้แสดงผลเต็มหน้าจอ 100% ไม่โดนบีบ */
+    .main-content {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 16px !important;
+        padding-top: 75px !important; /* เว้นที่ด้านบนสุดไว้ให้ปุ่มเปิดเมนู */
+    }
+
+    /* 5. ปรับ Layout แดชบอร์ด (กราฟและตารางลัด) ให้เรียงต่อกันเป็นแนวตั้ง */
+    .dashboard-layout {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+    }
+
+    /* ปรับขนาดหัวข้อหลักลดลงเล็กน้อยให้เข้ากับมือถือ */
+    .top-header h1 {
+        font-size: 20px;
     }
 }
