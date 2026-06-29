@@ -3,7 +3,8 @@
  * ✨ อัปเดตระบความปลอดภัยยืนยันสิทธิ์ผ่านหลังบ้าน และจัดการตัวแปรออเดอร์อย่างสมบูรณ์ไร้รอยต่อ
  */
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzUSfC0UMS1rLJTpVBbL1koAKUkHZcLIlQvLz98J2UzSwFUo-2sdqckWaiXNoEGgWJd/exec"; 
+const API_URL = "https://script.google.com/macros/s/AKfycbzFH98YroTH7FlSoRQkYq01X_gYlS3IPTCTXhm7-J-qAAtS_UDv7WSB-5KIDVHsQ2ks/exec
+"; 
 
 let state = { stock: [], purchase: [], shipping: [], line: [] };
 let stockChartInstance = null;
